@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Train Schedule</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Anytime is Train Time</h1>
+            <p>Choo Choo. Chee Chee</p>
+        </header>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Train Name</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Frequency (min)</th>
+                    <th scope="col">Next Arrival</th>
+                    <th scope="col">Minutes Away</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div class="testing"></div>
+        <form>
+            <div class="form-group">
+                <label for="trainName">Train Name</label>
+                <input type="text" class="form-control" id="trainName">
+            </div>
+            <div class="form-group">
+                <label for="destination">Destination</label>
+                <input type="text" class="form-control" id="destination">
+            </div>
+            <div class="form-group">
+                <label for="firstTrainTime">First Train Time (HH:mm - military time)</label>
+                <input type="text" class="form-control" id="firstTrainTime">
+            </div>
+            <div class="form-group">
+                <label for="frequency">Frequency</label>
+                <input type="text" class="form-control" id="frequency">
+            </div>
+            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script type="text/javascript" src="assets/javascript/jquery.js"></script>
+    <script type="text/javascript" src="assets/javascript/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/popper.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDcgpBGSelqEmBX5SzNbiNF-gM-fH61bwM",
+            authDomain: "train-schedule-a4245.firebaseapp.com",
+            databaseURL: "https://train-schedule-a4245.firebaseio.com",
+            projectId: "train-schedule-a4245",
+            storageBucket: "train-schedule-a4245.appspot.com",
+            messagingSenderId: "95786993402"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
+</body>
+
+</html>
