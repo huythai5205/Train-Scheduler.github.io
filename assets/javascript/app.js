@@ -1,7 +1,9 @@
 $(document).ready(function () {
+
     $('.modal').modal({
         show: false
     });
+
     let firebaseRef = firebase.database().ref();
     let aTrain;
     let editIndex;
@@ -26,8 +28,6 @@ $(document).ready(function () {
                 $('tbody').append(row);
             });
         });
-
-
     }
     renderTrainSchedule();
 
@@ -35,28 +35,47 @@ $(document).ready(function () {
         firebaseRef.child('aTrain').set(aTrain);
     }
 
+    function validateInputs(string) {
+        let isTime = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/;
+        let isFrequency = /[0-9]/;
+        if ($('#' + string + 'trainName').val() === "") {
+            alert("Please enter train's name");
+            return false;
+        } else if ($('#' + string + 'destination').val() === "") {
+            alert("Please enter train's destination");
+            return false;
+        } else if (!$('#' + string + 'firstTrainTime').val().match(isTime)) {
+            alert('Invalid time format: HH:mm');
+            return false;
+        } else if (!$('#' + string + 'frequency').val().match(isFrequency)) {
+            alert('Invalid: digits only');
+            return false;
+        }
+        return true;
+    }
+
     $(document).on('click', '#editBtn', function (event) {
         event.preventDefault();
         editIndex = $(this).attr('data-train');
         let train = aTrain[editIndex];
-        $('.modal-title').html(train.trainName);
+        $('.modal-title').html('Edit ' + train.trainName);
         $('.modal-body').html(`
          <form>
             <div class="form-group">
-                <label for="trainName">Train Name</label>
-                <input type="text" class="form-control" id="edit-trainName" placeHolder="edit train ${train.trainName}">
+                <label for="trainName">Train's name</label>
+                <input type="text" class="form-control" id="edit-trainName" value="${train.trainName}">
             </div>
             <div class="form-group">
                 <label for="destination">Destination</label>
-                <input type="text" class="form-control" id="edit-destination" placeHolder="${train.destination}">
+                <input type="text" class="form-control" id="edit-destination" value=  "${train.destination}">
             </div>
             <div class="form-group">
                 <label for="firstTrainTime">First Train Time (HH:mm - military time)</label>
-                <input type="text" class="form-control" id="edit-firstTrainTime" placeHolder="${train.firstTrainTime}">
+                <input type="text" class="form-control" id="edit-firstTrainTime" value="${train.firstTrainTime}">
             </div>
             <div class="form-group">
                 <label for="frequency">Frequency</label>
-                <input type="text" class="form-control" id="edit-frequency" placeHolder="${train.frequency}">
+                <input type="text" class="form-control" id="edit-frequency" value="${train.frequency}">
             </div>
         </form>
         `);
@@ -65,12 +84,14 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#saveChanges', function () {
-        aTrain[editIndex].trainName = $('#edit-trainName').val();
-        aTrain[editIndex].trainName = $('#edit-trainName').val();
-        aTrain[editIndex].trainName = $('#edit-trainName').val();
-        aTrain[editIndex].trainName = $('#edit-trainName').val();
-        $('.modal').modal('hide');
-        saveToDatabase();
+        if (validateInputs('edit-')) {
+            aTrain[editIndex].trainName = $('#edit-trainName').val();
+            aTrain[editIndex].trainName = $('#edit-trainName').val();
+            aTrain[editIndex].trainName = $('#edit-trainName').val();
+            aTrain[editIndex].trainName = $('#edit-trainName').val();
+            $('.modal').modal('hide');
+            saveToDatabase();
+        }
     });
 
     $(document).on('click', '#removeBtn', function () {
@@ -86,12 +107,14 @@ $(document).ready(function () {
         let firstTrainTime = $('#firstTrainTime').val();
         let frequency = $('#frequency').val();
 
-        aTrain.push({
-            'trainName': trainName,
-            'destination': destination,
-            'firstTrainTime': firstTrainTime,
-            'frequency': frequency
-        });
-        saveToDatabase();
+        if (validateInputs("")) {
+            aTrain.push({
+                'trainName': trainName,
+                'destination': destination,
+                'firstTrainTime': firstTrainTime,
+                'frequency': frequency
+            });
+            saveToDatabase();
+        }
     });
 });
