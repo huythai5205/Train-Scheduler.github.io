@@ -10,6 +10,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 </head>
 
 <body>
@@ -35,7 +36,25 @@
             </tbody>
         </table>
 
-        <div class="testing"></div>
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="saveChanges" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <form>
             <div class="form-group">
                 <label for="trainName">Train Name</label>
@@ -60,8 +79,8 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script type="text/javascript" src="assets/javascript/jquery.js"></script>
-    <script type="text/javascript" src="assets/javascript/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/javascript/popper.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
     <script>
         // Initialize Firebase
@@ -75,6 +94,7 @@
         };
         firebase.initializeApp(config);
     </script>
+    <script type="text/javascript" src="assets/javascript/moment.js"></script>
     <script type="text/javascript" src="assets/javascript/app.js"></script>
 </body>
 

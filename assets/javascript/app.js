@@ -1,7 +1,10 @@
 $(document).ready(function () {
-
+    $('.modal').modal({
+        show: false
+    });
     let firebaseRef = firebase.database().ref();
     let aTrain;
+    let editIndex;
 
     function renderTrainSchedule() {
 
@@ -32,17 +35,49 @@ $(document).ready(function () {
         firebaseRef.child('aTrain').set(aTrain);
     }
 
-    $(document).on('click', '#editBtn', function () {
-        let index = $(this).attr('data-train');
-        aTrain.splice(index, 1);
+    $(document).on('click', '#editBtn', function (event) {
+        event.preventDefault();
+        editIndex = $(this).attr('data-train');
+        let train = aTrain[editIndex];
+        $('.modal-title').html(train.trainName);
+        $('.modal-body').html(`
+         <form>
+            <div class="form-group">
+                <label for="trainName">Train Name</label>
+                <input type="text" class="form-control" id="edit-trainName" placeHolder="edit train ${train.trainName}">
+            </div>
+            <div class="form-group">
+                <label for="destination">Destination</label>
+                <input type="text" class="form-control" id="edit-destination" placeHolder="${train.destination}">
+            </div>
+            <div class="form-group">
+                <label for="firstTrainTime">First Train Time (HH:mm - military time)</label>
+                <input type="text" class="form-control" id="edit-firstTrainTime" placeHolder="${train.firstTrainTime}">
+            </div>
+            <div class="form-group">
+                <label for="frequency">Frequency</label>
+                <input type="text" class="form-control" id="edit-frequency" placeHolder="${train.frequency}">
+            </div>
+        </form>
+        `);
+        $('.modal').modal('show');
         saveToDatabase();
-    })
+    });
+
+    $(document).on('click', '#saveChanges', function () {
+        aTrain[editIndex].trainName = $('#edit-trainName').val();
+        aTrain[editIndex].trainName = $('#edit-trainName').val();
+        aTrain[editIndex].trainName = $('#edit-trainName').val();
+        aTrain[editIndex].trainName = $('#edit-trainName').val();
+        $('.modal').modal('hide');
+        saveToDatabase();
+    });
 
     $(document).on('click', '#removeBtn', function () {
         let index = $(this).attr('data-train');
         aTrain.splice(index, 1);
         saveToDatabase();
-    })
+    });
 
     $('#submit').click(function (event) {
         event.preventDefault();
