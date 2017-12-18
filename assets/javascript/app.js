@@ -1,38 +1,52 @@
 $(document).ready(function () {
 
+    var config = {
+        apiKey: "AIzaSyDcgpBGSelqEmBX5SzNbiNF-gM-fH61bwM",
+        authDomain: "train-schedule-a4245.firebaseapp.com",
+        databaseURL: "https://train-schedule-a4245.firebaseio.com",
+        projectId: "train-schedule-a4245",
+        storageBucket: "train-schedule-a4245.appspot.com",
+        messagingSenderId: "95786993402"
+    };
+    firebase.initializeApp(config);
+
+
     $('.modal').modal({
         show: false
     });
 
     let firebaseRef = firebase.database().ref();
-    let aTrain;
+    let aTrain = [];
     let editIndex;
 
     function renderTrainSchedule() {
 
-        firebaseRef.child('aTrain').on('value', function (data) {
-            aTrain = data.val();
-            $('tbody').empty();
-            aTrain.forEach(function (value, index) {
-                let row = $(`
-                <tr>
-                    <td><span id="editBtn" data-train="${index}" class="glyphicon glyphicon-edit" aria-hidden="true">edit</span></td>
-                    <td>${value.trainName}</td>
-                    <td>${value.destination}</td>
-                    <td>${value.frequency}</td>
-                    <td>00:00pm</td>
-                    <td>00:00</td>
-                    <td><span id="removeBtn" data-train="${index}" class="glyphicon glyphicon-remove" aria-hidden>remove</span></td>
-                </tr>
-                `);
-                $('tbody').append(row);
-            });
+        firebaseRef.on('value', function (data) {
+            if (data.exists()) {
+                aTrain = data.val();
+                $('tbody').empty();
+                aTrain.forEach(function (value, index) {
+                    let row = $(`
+                    <tr>
+                        <td><span id="editBtn" data-train="${index}" class="glyphicon glyphicon-edit" aria-hidden="true">edit</span></td>
+                        <td>${value.trainName}</td>
+                        <td>${value.destination}</td>
+                        <td>${value.frequency}</td>
+                        <td>00:00pm</td>
+                        <td>00:00</td>
+                        <td><span id="removeBtn" data-train="${index}" class="glyphicon glyphicon-remove" aria-hidden>remove</span></td>
+                    </tr>
+                    `);
+                    $('tbody').append(row);
+                });
+            }
+
         });
     }
     renderTrainSchedule();
 
     function saveToDatabase() {
-        firebaseRef.child('aTrain').set(aTrain);
+        firebaseRef.set(aTrain);
     }
 
     function validateInputs(string) {
@@ -115,6 +129,11 @@ $(document).ready(function () {
                 'frequency': frequency
             });
             saveToDatabase();
+
+            $('#trainName').val('');
+            $('#destination').val('');
+            $('#firstTrainTime').val('');
+            $('#frequency').val('');
         }
     });
 });

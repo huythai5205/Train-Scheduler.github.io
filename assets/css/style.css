@@ -1,6 +1,9 @@
 header {
     background-color: #7e452c;
     height: 200px;
+    color: white;
+    text-align: center;
+    padding: 50px;
 }
 
 .modal {
