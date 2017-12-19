@@ -4,6 +4,8 @@ header {
     color: white;
     text-align: center;
     padding: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .modal {

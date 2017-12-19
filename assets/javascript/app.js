@@ -32,8 +32,8 @@ $(document).ready(function () {
                         <td>${value.trainName}</td>
                         <td>${value.destination}</td>
                         <td>${value.frequency}</td>
-                        <td>00:00pm</td>
-                        <td>00:00</td>
+                        <td>${getNextArrival(value.firstTrainTime, value.frequency)}</td>
+                        <td>${getMinutesAway(value.firstTrainTime, value.frequency)}</td>
                         <td><span id="removeBtn" data-train="${index}" class="glyphicon glyphicon-remove" aria-hidden>remove</span></td>
                     </tr>
                     `);
@@ -136,4 +136,18 @@ $(document).ready(function () {
             $('#frequency').val('');
         }
     });
+
+    function getNextArrival(firstTrainTime, frequency) {
+        let minutesAway = getMinutesAway(firstTrainTime, frequency);
+        return moment().add(minutesAway, 'minutes').format('hh:mm A');
+    }
+
+    function getMinutesAway(firstTrainTime, frequency) {
+        firstTrainTime = moment(firstTrainTime, 'HH:mm');
+        if (firstTrainTime.diff(moment()) > 0) {
+            return firstTrainTime.diff(moment(), 'minutes');
+        } else {
+            return moment().diff(firstTrainTime, 'minutes') % parseInt(frequency);
+        }
+    }
 });
